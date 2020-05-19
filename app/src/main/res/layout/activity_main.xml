@@ -6,12 +6,26 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="LogOut"
+        android:onClick="LogItOut"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/frame"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@+id/frame"
+        app:layout_constraintTop_toTopOf="@+id/frame"
+        app:layout_constraintVertical_bias="0.096" />
+
     <com.lorentzos.flingswipe.SwipeFlingAdapterView
         android:id="@+id/frame"
-        android:background="#cccccc"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:rotation_degrees="15.5"
-        tools:context=".MainActivity" />
+        android:background="#cccccc"
+        app:rotation_degrees="36.9"
+        tools:context=".MainActivity"
+        tools:layout_editor_absoluteX="151dp"
+        tools:layout_editor_absoluteY="161dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
