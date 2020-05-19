@@ -8,7 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,23 +21,36 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ArrayList<String> al;
-    private ArrayAdapter<String> arrayAdapter;
+    private Card cards_data[];
+    private pl.achcinski.gtk.ArrayAdapter arrayAdapter;
 
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
+    private String currentUId;
+
+    private DatabaseReference usersDb;
+
+    ListView listView;
+    List<Card> rowItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        usersDb = FirebaseDatabase.getInstance().getReference().child("Users");
+
+        currentUId = mAuth.getCurrentUser().getUid();
+
         userSex();
 
-        al = new ArrayList<>();
+        rowItems = new ArrayList<Card>();
 
-        arrayAdapter = new ArrayAdapter<>(this, R.layout.item, R.id.helloText, al );
+        arrayAdapter = new ArrayAdapter(this, R.layout.item, rowItems );
 
         SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
 
@@ -46,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void removeFirstObjectInAdapter() {
                 Log.d("LIST", "removed object!");
-                al.remove(0);
+                rowItems.remove(0);
                 arrayAdapter.notifyDataSetChanged();
             }
 
@@ -92,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
                 if (dataSnapshot.getKey().equals(user.getUid())){
                     userSex = "Male";
                     oppositeUserSex = "Female";
+                    usersDb = usersDb.child(oppositeUserSex);
                     getOppositeSexUsers();
                 }
             }
@@ -125,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
                 if (dataSnapshot.getKey().equals(user.getUid())){
                     userSex = "Female";
                     oppositeUserSex = "Male";
+                    usersDb = usersDb.child(oppositeUserSex);
                     getOppositeSexUsers();
                 }
             }
@@ -157,7 +172,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 if (dataSnapshot.exists()){
-                    al.add(dataSnapshot.child("name").getValue().toString());
+                    //al.add(dataSnapshot.child("name").getValue().toString());
+                    Card item = new Card(dataSnapshot.getKey(),dataSnapshot.child("name").getValue().toString());
+                    rowItems.add(item);
                     arrayAdapter.notifyDataSetChanged();
                 }
             }
