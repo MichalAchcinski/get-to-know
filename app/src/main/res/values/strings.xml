@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">GTK</string>
     <string name="itemTextViewText">Siemson</string>
+    <string name="login">login</string>
+    <string name="register">register</string>
+    <string name="email">email</string>
+    <string name="password">password</string>
+    <string name="registerButton">Register</string>
+    <string name="loginButton">Login</string>
 </resources>

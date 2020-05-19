@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "802241792802",
+    "firebase_url": "https://trochetindertrochenie.firebaseio.com",
+    "project_id": "trochetindertrochenie",
+    "storage_bucket": "trochetindertrochenie.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:802241792802:android:e766c3c81bf48d84f8737b",
+        "android_client_info": {
+          "package_name": "pl.achcinski.gtk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "802241792802-jbgrrdd3bm0e4a7dl3qjis30n9uhqqeq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "pl.achcinski.gtk",
+            "certificate_hash": "18a8c8e19408c5c360d60d9d6042cf338f0c6e59"
+          }
+        },
+        {
+          "client_id": "802241792802-ivlj3pbklr828jn3que5ldopt2i02a7f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVJoBf1S7zxnKQ-Wsbe94xXTjW-qGxdr4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "802241792802-ivlj3pbklr828jn3que5ldopt2i02a7f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
