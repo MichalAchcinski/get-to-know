@@ -4,6 +4,8 @@ public class Card {
     String userId;
     String name;
 
+    public Card(){}; // konstuktor domyślny
+
     public Card(String userId, String name){
         this.userId=userId;
         this.name=name;
@@ -25,3 +27,5 @@ public class Card {
         this.name = name;
     }
 }
+
+// klasa Card stworzona do sprawnego ustawiania / odczytywania danych

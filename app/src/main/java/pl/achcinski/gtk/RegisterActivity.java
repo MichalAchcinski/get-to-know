@@ -44,23 +44,23 @@ public class RegisterActivity extends AppCompatActivity {
                     Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
-                }
+                }                                                                                   // Jeśli użytkownik jest zalogowany, to zostanie przeniesiony od razu do MainActivity
             }
         };
 
-        mRegister = (Button) findViewById(R.id.Register2);
+        mRegister = findViewById(R.id.Register2);
 
-        mEmail = (EditText) findViewById(R.id.email);
-        mPassword = (EditText) findViewById(R.id.password);
-        mName = (EditText) findViewById(R.id.nameRegister);
+        mEmail = findViewById(R.id.email);
+        mPassword = findViewById(R.id.password);
+        mName = findViewById(R.id.nameRegister);
 
-        mRadioGroup = (RadioGroup) findViewById(R.id.radioGroup);
+        mRadioGroup = findViewById(R.id.radioGroup);
 
         mRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int selectId = mRadioGroup.getCheckedRadioButtonId();
-                final RadioButton radioButton = (RadioButton) findViewById(selectId);
+                final RadioButton radioButton = findViewById(selectId);
 
                 if(radioButton.getText() == null){
                     return;
@@ -82,7 +82,7 @@ public class RegisterActivity extends AppCompatActivity {
                             currentUserDb.setValue(name);
                         }
                     }
-                });
+                });                                                                                 //odczytywanie danych rejestracji i  zapisywanie ich w bazie danych firebase
 
             }
         });
@@ -91,12 +91,12 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        mAuth.addAuthStateListener(firebaseAuthStateListener);
+        mAuth.addAuthStateListener(firebaseAuthStateListener);                                      // rozpoczyna nasłuchiwanie zmian uwierzytelniania, daje znać po tym jak nastąpi rejestracja, logowanie, wylogowanie, obceny użytkownik się zmieni
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        mAuth.removeAuthStateListener(firebaseAuthStateListener);
+        mAuth.removeAuthStateListener(firebaseAuthStateListener);                                   // zatrzymuje nasłuchiwanie zmian uwierzytelniania
     }
 }

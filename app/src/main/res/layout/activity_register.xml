@@ -4,45 +4,69 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegisterActivity"
-    android:orientation="vertical">
+    android:background="@drawable/water"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".RegisterActivity">
+
 
     <EditText
+        android:id="@+id/nameRegister"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/nameHint"
-        android:id="@+id/nameRegister"/>
+        android:layout_height="40dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:background="@drawable/rounded_edittext"
+        android:drawableLeft="@drawable/ic_person_outline_black_24dp"
+        android:hint="@string/nameHint" />
 
     <RadioGroup
+        android:id="@+id/radioGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/radioGroup">
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="32dp">
+
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Male"/>
+            android:text="Male" />
+
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Female"/>
+            android:text="Female" />
     </RadioGroup>
 
     <EditText
+        android:id="@+id/email"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/email"
-        android:id="@+id/email"/>
+        android:layout_height="40dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="32dp"
+        android:background="@drawable/rounded_edittext"
+        android:drawableLeft="@drawable/ic_mail_outline_black_24dp"
+        android:hint="@string/email" />
 
     <EditText
+        android:id="@+id/password"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/password"
-        android:id="@+id/password"/>
+        android:layout_height="40dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="32dp"
+        android:background="@drawable/rounded_edittext"
+        android:drawableLeft="@drawable/ic_lock_outline_black_24dp"
+        android:hint="@string/password" />
 
     <Button
+        android:id="@+id/Register2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/registerButton"
-        android:id="@+id/Register2"/>
-    
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:text="@string/registerButton" />
+
 </LinearLayout>

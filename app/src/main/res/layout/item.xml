@@ -1,45 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_gravity="center"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:paddingLeft="40sp"
-    android:paddingRight="40sp"
-    android:paddingTop="20sp"
-    android:paddingBottom="20sp"
+    android:layout_gravity="bottom|center"
+    android:clipToPadding="false"
     android:outlineProvider="bounds"
-    android:clipToPadding="false">
+    android:layout_marginBottom="20dp"
+    android:paddingLeft="40sp"
+    android:paddingTop="40sp"
+    android:paddingRight="40sp"
+    android:paddingBottom="20sp">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        app:cardCornerRadius="8dp"
+        android:layout_marginBottom="30dp"
         android:elevation="2dp"
-        android:id="@+id/cardView">
+        app:cardCornerRadius="16dp">
 
         <FrameLayout
-            android:layout_gravity="center"
-            android:layout_width="300dp"
-            android:layout_height="250dp">
+            android:layout_width="350dp"
+            android:layout_height="500dp"
+            android:layout_gravity="center">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/imageView"/>
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
-    <TextView
-        android:id="@+id/name"
-        android:textSize="40sp"
-        android:textColor="@android:color/black"
-        android:gravity="center"
-        tools:text="@string/itemTextViewText"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="bottom|center"
+                android:textColor="@android:color/white"
+                android:textSize="40sp"
+                tools:text="@string/itemTextViewText" />
 
 
         </FrameLayout>
     </androidx.cardview.widget.CardView>
 </LinearLayout>
+
+<!--Stworzony schemat widoku pojedynczej karty do której dzięki klasie Card i adapterowi będą przypisywane zdjęcie i imię-->

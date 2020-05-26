@@ -9,15 +9,17 @@ import android.widget.Button;
 
 public class LogRegActivity extends AppCompatActivity {
 
-    private Button bLogin, bRegister;
+    Button bLogin, bRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_reg);
 
-        bLogin = (Button) findViewById(R.id.login);
-        bRegister = (Button) findViewById(R.id.register);
+        getSupportActionBar().setTitle("Get To Know");
+
+        bLogin = findViewById(R.id.login);
+        bRegister = findViewById(R.id.register);
 
         bLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,3 +41,5 @@ public class LogRegActivity extends AppCompatActivity {
 
     }
 }
+
+// Ekran początkowy do logowania lub rejestracji

@@ -1,0 +1,20 @@
+<svg width="21px" height="21px" viewBox="0 0 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(-852.000000, -102.000000)">
+            <g transform="translate(303.000000, 102.000000)">
+                <g transform="translate(549.000000, 0.000000)">
+                    <g>
+                        <circle fill="#000000" cx="10.5" cy="10.5" r="10.5"></circle>
+                        <g stroke-linecap="round" transform="translate(10.735157, 10.632020) rotate(-9.000000) translate(-10.735157, -10.632020) translate(2.235157, 5.263599)" stroke="#FFFFFF" stroke-width="0.8">
+                            <polyline transform="translate(5.830469, 5.598202) rotate(9.000000) translate(-5.830469, -5.598202) " points="1.35678474 1.1245181 6.0975063 10.0718865 10.3041532 6.03597723"></polyline>
+                            <polyline transform="translate(6.784174, 5.296309) rotate(9.000000) translate(-6.784174, -5.296309) " points="1.41575288 1.26999362 10.8187298 6.27031557 12.152595 9.3226252"></polyline>
+                            <line x1="8.92892695" y1="8.12445114" x2="11.6131375" y2="9.91392482" transform="translate(10.271032, 9.019188) rotate(9.000000) translate(-10.271032, -9.019188) "></line>
+                            <polyline transform="translate(8.901535, 3.366942) rotate(9.000000) translate(-8.901535, -3.366942) " points="1.74364069 1.57746822 16.0594302 2.31288991 12.2457603 5.15641559"></polyline>
+                            <polyline transform="translate(6.784174, 5.296309) rotate(9.000000) translate(-6.784174, -5.296309) " points="1.41575288 1.26999362 12.152595 4.86711944 12.149983 9.3226252"></polyline>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="218px" height="103px" viewBox="0 0 218 103" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+    <title>Paper-plane</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Paper-plane" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(109.006156, 50.921783) scale(-1, 1) rotate(-9.000000) translate(-109.006156, -50.921783) translate(23.006156, 24.921783)" stroke="#000000" stroke-width="1.5">
+            <path d="M35.8371347,34.1057048 C72.9563442,48.8859281 98.7069164,48.6203288 113.088851,33.3089071 C125.266852,20.3438571 120.983985,4.28081298 103.837135,1.10701435 C88.6181433,-1.70994703 81.4004378,10.730376 80.082216,18.0892672 C77.0552691,34.9870113 111.70145,66.3306983 171.837135,43.8817555" id="Path-5" stroke-dasharray="5"></path>
+            <g id="Plane" transform="translate(0.922501, 1.423259)" stroke-linecap="round">
+                <polyline id="Path-2" points="-2.53659858e-13 3.1266828e-13 11.4048076 32.2636653 27.7981718 21.1345404"></polyline>
+                <polyline id="Path-3" points="4.54209823e-12 6.78568313e-13 27.7981718 21.1345404 30.5359134 31.7730847"></polyline>
+                <path d="M21.8179807,25.4038525 L30.5359134,31.7730847" id="Path-4"></path>
+                <polyline id="Path-6" points="6.75725139e-12 1.33196611e-12 46.9038192 9.92773053 32.8369367 17.2449953"></polyline>
+                <polyline id="Path-7" points="4.40113954e-14 5.1347094e-14 32.8369367 17.2449953 30.5359134 31.7730847"></polyline>
+            </g>
+        </g>
+    </g>
+</svg>

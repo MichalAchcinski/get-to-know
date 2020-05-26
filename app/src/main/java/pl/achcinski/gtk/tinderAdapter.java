@@ -7,15 +7,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
-public class ArrayAdapter extends android.widget.ArrayAdapter<Card> {
+public class tinderAdapter extends android.widget.ArrayAdapter<Card> {
 
-    Context context;
-
-    public ArrayAdapter(Context context, int resourceId, List<Card> items){
+    public tinderAdapter(Context context, int resourceId, List<Card> items){
         super(context, resourceId, items);
     }
     public View getView(int position, View convertView, ViewGroup parent){
@@ -25,13 +21,15 @@ public class ArrayAdapter extends android.widget.ArrayAdapter<Card> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item, parent, false);
         }
 
-        TextView name = (TextView) convertView.findViewById(R.id.name);
-        ImageView image = (ImageView) convertView.findViewById(R.id.imageView);
+        TextView name = convertView.findViewById(R.id.name);
+        ImageView image = convertView.findViewById(R.id.imageView);
 
         name.setText(card_item.getName());
-        image.setImageResource(R.mipmap.ic_launcher);
+        image.setImageResource(R.drawable.test169photo);
 
         return convertView;
 
     }
 }
+
+// adapter czyli most między danymi a interfejsem widzianym przez uzytkownika (Konwertowanie tych danych do item.xml)

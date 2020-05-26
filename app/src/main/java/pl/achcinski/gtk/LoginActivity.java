@@ -40,13 +40,13 @@ public class LoginActivity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 }
-            }
+            } // sprawdzanie czy dany użytkownik jest już zalogowany, jeśli tak to aktywność zmienia się od razu na mainacitivity
         };
 
-        mLogin = (Button) findViewById(R.id.Login2);
+        mLogin = findViewById(R.id.Login2);
 
-        mEmail = (EditText) findViewById(R.id.email);
-        mPassword = (EditText) findViewById(R.id.password);
+        mEmail = findViewById(R.id.email);
+        mPassword = findViewById(R.id.password);
 
         mLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
                         if(!task.isSuccessful()){
                             Toast.makeText(LoginActivity.this, "Błąd logowania", Toast.LENGTH_SHORT).show();
                         }
-                    }
+                    } // logowowanie na przycisku i sprawdzanie czy w bazie danych istnieją określone dane logowania
                 });
 
             }
@@ -69,12 +69,12 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        mAuth.addAuthStateListener(firebaseAuthStateListener);
+        mAuth.addAuthStateListener(firebaseAuthStateListener);  // rozpoczyna nasłuchiwanie zmian uwierzytelniania, daje znać po tym jak nastąpi rejestracja, logowanie, wylogowanie, obceny użytkownik się zmieni
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        mAuth.removeAuthStateListener(firebaseAuthStateListener);
+        mAuth.removeAuthStateListener(firebaseAuthStateListener); // zatrzymuje nasłuchiwanie zmian uwierzytelniania
     }
 }

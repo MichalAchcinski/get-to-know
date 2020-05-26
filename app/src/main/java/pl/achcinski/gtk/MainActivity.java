@@ -3,12 +3,12 @@ package pl.achcinski.gtk;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.solver.widgets.Snapshot;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -18,6 +18,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import java.util.ArrayList;
@@ -25,17 +26,17 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Card cards_data[];
-    private pl.achcinski.gtk.ArrayAdapter arrayAdapter;
+    private tinderAdapter arrayAdapter;
 
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
-    private String currentUId;
+    String currentUId;
 
     private DatabaseReference usersDb;
 
-    ListView listView;
     List<Card> rowItems;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +51,9 @@ public class MainActivity extends AppCompatActivity {
 
         rowItems = new ArrayList<Card>();
 
-        arrayAdapter = new ArrayAdapter(this, R.layout.item, rowItems );
+        arrayAdapter = new tinderAdapter(this, R.layout.item, rowItems );
 
-        SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
+        SwipeFlingAdapterView flingContainer = findViewById(R.id.frame);
 
         flingContainer.setAdapter(arrayAdapter);
         flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
@@ -65,13 +66,22 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onLeftCardExit(Object dataObject) {
-                Toast.makeText(MainActivity.this, "Left", Toast.LENGTH_SHORT).show();
+                Card dataObj = (Card) dataObject;
+                String userId = dataObj.getUserId();
+                usersDb.child(oppositeUserSex).child(userId).child("Links").child("Like").child(currentUId).setValue(true);
+                Toast.makeText(MainActivity.this, "Hey", Toast.LENGTH_SHORT).show();
+                match(userId);
             }
 
             @Override
             public void onRightCardExit(Object dataObject) {
-                Toast.makeText(MainActivity.this, "Right", Toast.LENGTH_SHORT).show();
+                Card dataObj = (Card) dataObject;
+                String userId = dataObj.getUserId();
+                usersDb.child(oppositeUserSex).child(userId).child("Links").child("noLike").child(currentUId).setValue(true);
+                Toast.makeText(MainActivity.this, "Bye", Toast.LENGTH_SHORT).show();
             }
+
+                                                                                                                        // reakcje na przesuniecie karty w lewo lub prawo
 
             @Override
             public void onAdapterAboutToEmpty(int itemsInAdapter) {
@@ -81,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onScroll(float scrollProgressPercent) {
             }
+
         });
 
         flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
@@ -92,21 +103,20 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private String userSex;
+    String userSex;
     private String oppositeUserSex;
 
     public void userSex(){
-        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        DatabaseReference maleDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Male");
+        DatabaseReference maleDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Male");             // pobranie z bazy danych osob płci męskiej
         maleDb.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                if (dataSnapshot.getKey().equals(user.getUid())){
+                if (dataSnapshot.getKey().equals(currentUId)){                                                             // jesli obecne id konta zgadza się z kluczem snapshotu płci męskiej to:
+                    Log.i("patrz ", dataSnapshot.getKey());
+                    Log.i("patrz ", currentUId);
                     userSex = "Male";
                     oppositeUserSex = "Female";
-                    usersDb = usersDb.child(oppositeUserSex);
-                    getOppositeSexUsers();
+                    getOppositeSexUsers();                                                                                 // pobieranie z bazy danych osób płci przeciwnej aby je wyświetlić użytkownikowi
                 }
             }
 
@@ -132,15 +142,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        DatabaseReference femaleDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Female");
+        DatabaseReference femaleDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Female");           // pobranie z bazy danych osob płci żenskiej
         femaleDb.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                if (dataSnapshot.getKey().equals(user.getUid())){
+                if (dataSnapshot.getKey().equals(currentUId)){                                                               // jesli obecne id konta zgadza się z kluczem snapshotu płci żenskiej to:
                     userSex = "Female";
                     oppositeUserSex = "Male";
-                    usersDb = usersDb.child(oppositeUserSex);
-                    getOppositeSexUsers();
+                    getOppositeSexUsers();                                                                                   // pobieranie z bazy danych osób płci przeciwnej aby je wyświetlić użytkownikowi
                 }
             }
 
@@ -167,15 +176,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getOppositeSexUsers(){
-        DatabaseReference oppositeDb = FirebaseDatabase.getInstance().getReference().child("Users").child(oppositeUserSex);
+        DatabaseReference oppositeDb = FirebaseDatabase.getInstance().getReference().child("Users").child(oppositeUserSex);      // pobranie bazy danych płci przeciwnej do użytkownika
         oppositeDb.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                if (dataSnapshot.exists()){
-                    //al.add(dataSnapshot.child("name").getValue().toString());
-                    Card item = new Card(dataSnapshot.getKey(),dataSnapshot.child("name").getValue().toString());
-                    rowItems.add(item);
-                    arrayAdapter.notifyDataSetChanged();
+                if (dataSnapshot.exists() && !dataSnapshot.child("Links").child("noLike").hasChild(currentUId) && !dataSnapshot.child("Links").child("Like").hasChild(currentUId)){                                              // jesli baza nie jest pusta to:
+                    //al.add(dataSnapshot.child("name").getValue().toString());      ^^ jesli w database płci przeciwnej są uzytkownicy + jesli nie ma ich w podkatalogu like albo dislike to wykonujemy:
+                    Card item = new Card(dataSnapshot.getKey(),dataSnapshot.child("name").getValue().toString());                // tworzenie kart z osobami z płci przeciwnej
+                    rowItems.add(item);                                                                                          // dodawanie ich do arrayList
+                    arrayAdapter.notifyDataSetChanged();                                                                         // powiadomienie o zmieanie danych i odswiezenie
                 }
             }
 
@@ -202,10 +211,30 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void LogItOut(View view) {
+    public void logItOut(View view) {
         mAuth.signOut();
         Intent intent = new Intent(MainActivity.this, LogRegActivity.class);
         startActivity(intent);
         finish();
+    }                                                                                                                             //wylogowanie z aplikacji
+
+    private void match (String userId){
+        DatabaseReference links = usersDb.child(userSex).child(currentUId).child("Links").child("Like").child(userId);   // pobiernaie ID osób które dały Ci polubienie
+        links.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){                                                                              // jesli sprawdzany wlasnie  user dał Ci lajka to:
+                    Toast.makeText(MainActivity.this,"macz pogchamp", Toast.LENGTH_SHORT).show();
+                    usersDb.child(oppositeUserSex).child(dataSnapshot.getKey()).child("Links").child("Matches").child(currentUId).setValue(true);
+                    usersDb.child(userSex).child(currentUId).child("Links").child("Matches").child(dataSnapshot.getKey()).setValue(true);
+                }                                                                                                       // a ta funkcja wywoływana jest kiedy przesuwasz w lewo (Lajkujesz)
+            }                                                                                                           // wiec jesli przesuwasz to sprawdza czy ta osoba dała ci lajka
+                                                                                                                        // no i jesli tak to zapisuje w bazie danych matcha el0
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }
