@@ -13,6 +13,7 @@
         android:onClick="logItOut"
         android:shadowColor="@color/colorPrimaryDark"
         android:text="LogOut"
+        android:background="@drawable/rounded_edittext"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/frame"
         app:layout_constraintHorizontal_bias="0.498"

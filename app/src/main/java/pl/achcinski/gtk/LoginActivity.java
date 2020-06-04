@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,17 +38,16 @@ public class LoginActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if (user !=null){
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, LoadingActivity.class);
                     startActivity(intent);
-                    finish();
                 }
             } // sprawdzanie czy dany użytkownik jest już zalogowany, jeśli tak to aktywność zmienia się od razu na mainacitivity
         };
 
         mLogin = findViewById(R.id.Login2);
 
-        mEmail = findViewById(R.id.email);
-        mPassword = findViewById(R.id.password);
+        mEmail = findViewById(R.id.emailRegister);
+        mPassword = findViewById(R.id.passwordRegister);
 
         mLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,13 +65,39 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
+
+        mEmail.addTextChangedListener(loginTextWatcher);                                            // będziemy sprawdzali czy pola email i password są puste czy nie
+        mPassword.addTextChangedListener(loginTextWatcher);                                         // jesli nie to pozwalamy kliknąć przycisk
+
     }
+
+    private TextWatcher loginTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            String emailInput = mEmail.getText().toString().trim();                                 // trim po to żeby białych znaków nie zaliczało jako napisu
+            String passwordInput = mPassword.getText().toString().trim();
+
+            mLogin.setEnabled(!emailInput.isEmpty() && !passwordInput.isEmpty());
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
+
 
     @Override
     protected void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(firebaseAuthStateListener);  // rozpoczyna nasłuchiwanie zmian uwierzytelniania, daje znać po tym jak nastąpi rejestracja, logowanie, wylogowanie, obceny użytkownik się zmieni
     }
+
 
     @Override
     protected void onStop() {

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GTK</string>
+    <string name="app_name">Get To Know</string>
     <string name="itemTextViewText">Siemson</string>
     <string name="login">login</string>
     <string name="register">register</string>

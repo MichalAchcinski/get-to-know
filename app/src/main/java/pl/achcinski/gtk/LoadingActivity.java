@@ -3,31 +3,22 @@ package pl.achcinski.gtk;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.solver.widgets.Snapshot;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class LoadingActivity extends AppCompatActivity {
 
     private tinderAdapter arrayAdapter;
 
@@ -40,70 +31,13 @@ public class MainActivity extends AppCompatActivity {
     List<Card> rowItems;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        usersDb = FirebaseDatabase.getInstance().getReference().child("Users");
-
-        currentUId = mAuth.getCurrentUser().getUid();
+        setContentView(R.layout.activity_loading);
 
         userSex();
-
-        rowItems = new ArrayList<Card>();
-
-        arrayAdapter = new tinderAdapter(this, R.layout.item, rowItems );
-
-        SwipeFlingAdapterView flingContainer = findViewById(R.id.frame);
-
-        flingContainer.setAdapter(arrayAdapter);
-        flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
-            @Override
-            public void removeFirstObjectInAdapter() {
-                Log.d("LIST", "removed object!");
-                rowItems.remove(0);
-                arrayAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onLeftCardExit(Object dataObject) {
-                Card dataObj = (Card) dataObject;
-                String userId = dataObj.getUserId();
-                usersDb.child(oppositeUserSex).child(userId).child("Links").child("Like").child(currentUId).setValue(true);
-                Toast.makeText(MainActivity.this, "Hey", Toast.LENGTH_SHORT).show();
-                match(userId);
-            }
-
-            @Override
-            public void onRightCardExit(Object dataObject) {
-                Card dataObj = (Card) dataObject;
-                String userId = dataObj.getUserId();
-                usersDb.child(oppositeUserSex).child(userId).child("Links").child("noLike").child(currentUId).setValue(true);
-                Toast.makeText(MainActivity.this, "Bye", Toast.LENGTH_SHORT).show();
-            }
-
-                                                                                                                        // reakcje na przesuniecie karty w lewo lub prawo
-
-            @Override
-            public void onAdapterAboutToEmpty(int itemsInAdapter) {
-
-            }
-
-            @Override
-            public void onScroll(float scrollProgressPercent) {
-            }
-
-        });
-
-        flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClicked(int itemPosition, Object dataObject) {
-                Toast.makeText(MainActivity.this, "Click", Toast.LENGTH_SHORT).show();
-            }
-        });
-
+        nextActivity();
     }
 
     String userSex;
@@ -214,49 +148,16 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void logItOut(View view) {
-        mAuth.signOut();
-        Intent intent = new Intent(MainActivity.this, LogRegActivity.class);
-        startActivity(intent);
-        finish();
-    }                                                                                                                             //wylogowanie z aplikacji
-
-    private void match (String userId){
-        DatabaseReference links = usersDb.child(userSex).child(currentUId).child("Links").child("Like").child(userId);   // pobiernaie ID osób które dały Ci polubienie
-        links.addListenerForSingleValueEvent(new ValueEventListener() {
+    public void nextActivity()
+    {
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()){                                                                              // jesli sprawdzany wlasnie  user dał Ci lajka to:
-                    Toast.makeText(MainActivity.this,"macz pogchamp", Toast.LENGTH_SHORT).show();
-                    usersDb.child(oppositeUserSex).child(dataSnapshot.getKey()).child("Links").child("Matches").child(currentUId).setValue(true);
-                    usersDb.child(userSex).child(currentUId).child("Links").child("Matches").child(dataSnapshot.getKey()).setValue(true);
-                }                                                                                                       // a ta funkcja wywoływana jest kiedy przesuwasz w lewo (Lajkujesz)
-            }                                                                                                           // wiec jesli przesuwasz to sprawdza czy ta osoba dała ci lajka
-                                                                                                                        // no i jesli tak to zapisuje w bazie danych matcha el0
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
+            public void run() {
+                Intent intent = new Intent(LoadingActivity.this,MainActivity.class);
+                intent.putExtra("userSex", userSex);                                                  // dzieki temu mozemy korzystać z userSex w aktywnosci profile
+                startActivity(intent);
             }
-        });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu1, menu);
-        return true;
-    }
-
-    public void goSettings(MenuItem item) {
-        Intent intent = new Intent(MainActivity.this,Settings.class);
-        intent.putExtra("userSex", userSex);                                                  // dzieki temu mozemy korzystać z userSex w aktywnosci profile
-        startActivity(intent);
-    }
-
-    public void goProfile(MenuItem item) {
-        Intent intent = new Intent(MainActivity.this,Profile.class);
-        intent.putExtra("userSex", userSex);                                                 // dzieki temu mozemy korzystać z userSex w aktywnosci profile
-        startActivity(intent);
+        }, 2000);
     }
 }
