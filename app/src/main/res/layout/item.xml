@@ -7,7 +7,7 @@
     android:layout_gravity="bottom|center"
     android:clipToPadding="false"
     android:outlineProvider="bounds"
-    android:layout_marginBottom="20dp"
+    android:layout_marginBottom="36dp"
     android:paddingLeft="40sp"
     android:paddingTop="40sp"
     android:paddingRight="40sp"
@@ -15,17 +15,18 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="30dp"
         android:elevation="2dp"
         app:cardCornerRadius="16dp">
 
-        <FrameLayout
-            android:layout_width="350dp"
-            android:layout_height="500dp"
-            android:layout_gravity="center">
+        <RelativeLayout
+            android:layout_width="270dp"
+            android:layout_height="480dp"
+            android:layout_gravity="center"
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/imageView"
@@ -33,17 +34,17 @@
                 android:layout_height="match_parent" />
 
             <TextView
-                android:id="@+id/name"
+                android:id="@+id/nameItem"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="bottom|center"
-                android:textColor="@android:color/white"
-                android:textSize="40sp"
+                android:gravity="center|bottom"
+                android:layout_marginBottom="24dp"
+                android:textColor="@android:color/black"
+                android:textSize="40dp"
                 tools:text="@string/itemTextViewText" />
 
-
-        </FrameLayout>
+        </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </LinearLayout>
 
-<!--Stworzony schemat widoku pojedynczej karty do której dzięki klasie Card i adapterowi będą przypisywane zdjęcie i imię-->
+    <!--Stworzony schemat widoku pojedynczej karty do której dzięki klasie Card i adapterowi będą przypisywane zdjęcie i imię-->

@@ -3,7 +3,6 @@ package pl.achcinski.gtk;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.solver.widgets.Snapshot;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,7 +14,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,6 +24,8 @@ import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import pl.achcinski.gtk.Adapters.tinderAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -185,7 +185,11 @@ public class MainActivity extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 if (dataSnapshot.exists() && !dataSnapshot.child("Links").child("noLike").hasChild(currentUId) && !dataSnapshot.child("Links").child("Like").hasChild(currentUId)){                                              // jesli baza nie jest pusta to:
                     //al.add(dataSnapshot.child("name").getValue().toString());      ^^ jesli w database płci przeciwnej są uzytkownicy + jesli nie ma ich w podkatalogu like albo dislike to wykonujemy:
-                    Card item = new Card(dataSnapshot.getKey(),dataSnapshot.child("name").getValue().toString());                // tworzenie kart z osobami z płci przeciwnej
+                    String imageurl = "null";
+                    if (!dataSnapshot.child("profileInfo").child("imageurl").getValue().equals("null")){
+                         imageurl = dataSnapshot.child("profileInfo").child("imageurl").getValue().toString();
+                    }
+                    Card item = new Card(dataSnapshot.getKey(),dataSnapshot.child("profileInfo").child("name").getValue().toString(),imageurl);                // tworzenie kart z osobami z płci przeciwnej
                     rowItems.add(item);                                                                                          // dodawanie ich do arrayList
                     arrayAdapter.notifyDataSetChanged();                                                                         // powiadomienie o zmieanie danych i odswiezenie
                 }
@@ -239,6 +243,11 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        // Do Here what ever you want do on back press;
     }
 
     @Override

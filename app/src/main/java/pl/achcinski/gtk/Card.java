@@ -3,12 +3,14 @@ package pl.achcinski.gtk;
 public class Card {
     String userId;
     String name;
+    String profilePic;
 
-    public Card(){}; // konstuktor domyślny
+    public Card(){} // konstuktor domyślny
 
-    public Card(String userId, String name){
+    public Card(String userId, String name, String profilePic){
         this.userId=userId;
         this.name=name;
+        this.profilePic=profilePic;
     }
 
     public String getUserId() {
@@ -25,6 +27,14 @@ public class Card {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getProfilePic() {
+        return profilePic;
+    }
+
+    public void setProfilePic(String profilePic) {
+        this.profilePic = profilePic;
     }
 }
 

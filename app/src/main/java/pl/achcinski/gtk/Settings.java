@@ -56,7 +56,8 @@ public class Settings extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 phone = mPhone.getText().toString().trim();
-                userDatabase.child("phone").setValue(phone);
+                userDatabase.child("profileInfo").child("phone").setValue(phone);
+                finish();
             }
         });
 
@@ -68,7 +69,7 @@ public class Settings extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists() && dataSnapshot.getChildrenCount()>0){
-                    Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
+                    Map<String, Object> map = (Map<String, Object>) dataSnapshot.child("profileInfo").getValue();
                     if(map.get("phone")!=null) {
                         phone = map.get("phone").toString();
                         mPhone.setText(phone);

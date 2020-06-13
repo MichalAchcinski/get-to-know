@@ -18,6 +18,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
+import pl.achcinski.gtk.Adapters.tinderAdapter;
+
 public class LoadingActivity extends AppCompatActivity {
 
     private tinderAdapter arrayAdapter;
@@ -119,7 +121,11 @@ public class LoadingActivity extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 if (dataSnapshot.exists() && !dataSnapshot.child("Links").child("noLike").hasChild(currentUId) && !dataSnapshot.child("Links").child("Like").hasChild(currentUId)){                                              // jesli baza nie jest pusta to:
                     //al.add(dataSnapshot.child("name").getValue().toString());      ^^ jesli w database płci przeciwnej są uzytkownicy + jesli nie ma ich w podkatalogu like albo dislike to wykonujemy:
-                    Card item = new Card(dataSnapshot.getKey(),dataSnapshot.child("name").getValue().toString());                // tworzenie kart z osobami z płci przeciwnej
+                    String imageurl = "null";
+                    if (!dataSnapshot.child("profileInfo").child("imageurl").getValue().equals("null")){
+                        imageurl = dataSnapshot.child("profileInfo").child("imageurl").getValue().toString();
+                    }
+                    Card item = new Card(dataSnapshot.getKey(),dataSnapshot.child("profileInfo").child("name").getValue().toString(),imageurl);                // tworzenie kart z osobami z płci przeciwnej
                     rowItems.add(item);                                                                                          // dodawanie ich do arrayList
                     arrayAdapter.notifyDataSetChanged();                                                                         // powiadomienie o zmieanie danych i odswiezenie
                 }
@@ -158,6 +164,6 @@ public class LoadingActivity extends AppCompatActivity {
                 intent.putExtra("userSex", userSex);                                                  // dzieki temu mozemy korzystać z userSex w aktywnosci profile
                 startActivity(intent);
             }
-        }, 2000);
+        }, 2500);
     }
 }

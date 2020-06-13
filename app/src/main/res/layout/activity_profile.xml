@@ -21,13 +21,22 @@
     <EditText
         android:id="@+id/profileAbout"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="150dp"
         android:layout_marginLeft="32dp"
         android:layout_marginTop="16dp"
         android:layout_marginRight="32dp"
         android:background="@drawable/rounded_edittext"
         android:hint="About"
         android:gravity="center"/>
+
+    <ImageView
+        android:id="@+id/profilePhoto"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="32dp"
+        android:src="@drawable/ic_baseline_add_24" />
 
     <Button
         android:id="@+id/profileAccept"
