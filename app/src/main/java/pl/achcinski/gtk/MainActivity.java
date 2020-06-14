@@ -185,8 +185,8 @@ public class MainActivity extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 if (dataSnapshot.exists() && !dataSnapshot.child("Links").child("noLike").hasChild(currentUId) && !dataSnapshot.child("Links").child("Like").hasChild(currentUId)){                                              // jesli baza nie jest pusta to:
                     //al.add(dataSnapshot.child("name").getValue().toString());      ^^ jesli w database płci przeciwnej są uzytkownicy + jesli nie ma ich w podkatalogu like albo dislike to wykonujemy:
-                    String imageurl = "null";
-                    if (!dataSnapshot.child("profileInfo").child("imageurl").getValue().equals("null")){
+                    String imageurl = "none";
+                    if (!dataSnapshot.child("profileInfo").child("imageurl").getValue().equals("none")){
                          imageurl = dataSnapshot.child("profileInfo").child("imageurl").getValue().toString();
                     }
                     Card item = new Card(dataSnapshot.getKey(),dataSnapshot.child("profileInfo").child("name").getValue().toString(),imageurl);                // tworzenie kart z osobami z płci przeciwnej

@@ -36,7 +36,7 @@
         android:layout_marginLeft="32dp"
         android:layout_marginTop="16dp"
         android:layout_marginRight="32dp"
-        android:src="@drawable/ic_baseline_add_24" />
+        android:background="@drawable/ic_baseline_add_24"/>
 
     <Button
         android:id="@+id/profileAccept"

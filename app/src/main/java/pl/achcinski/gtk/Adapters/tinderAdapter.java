@@ -36,7 +36,7 @@ public class tinderAdapter extends android.widget.ArrayAdapter<Card> {
         name.setText(cardItem.getName());
         Log.i("pokaz imiona enemy",cardItem.getName());
         switch (cardItem.getProfilePic()){
-            case "null":
+            case "none":
                 Glide.with(getContext()).load(R.drawable.test).into(image);
                 break;
             default:
