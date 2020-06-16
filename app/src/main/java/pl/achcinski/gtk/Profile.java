@@ -119,10 +119,10 @@ public class Profile extends AppCompatActivity {
                                 public void onSuccess(Uri uri) {
 
                                     uInfo.put("imageurl", String.valueOf(uri));
-                                    userDatabase.child("profileInfo").setValue(uInfo);
+                                    userDatabase.child("profileInfo").updateChildren(uInfo);
                                     Log.i("haszmapka --> ",uInfo.toString());
 
-                                    userDatabase.child("profileInfo").setValue(uInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    userDatabase.child("profileInfo").updateChildren(uInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
                                             Toast.makeText(Profile.this,"Done",Toast.LENGTH_SHORT).show();

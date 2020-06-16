@@ -25,11 +25,12 @@ import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 import java.util.ArrayList;
 import java.util.List;
 
-import pl.achcinski.gtk.Adapters.tinderAdapter;
+import pl.achcinski.gtk.Adapters.cardAdapter;
+import pl.achcinski.gtk.Models.Card;
 
 public class MainActivity extends AppCompatActivity {
 
-    private tinderAdapter arrayAdapter;
+    private cardAdapter arrayAdapter;
 
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
         rowItems = new ArrayList<Card>();
 
-        arrayAdapter = new tinderAdapter(this, R.layout.item, rowItems );
+        arrayAdapter = new cardAdapter(this, R.layout.item, rowItems );
 
         SwipeFlingAdapterView flingContainer = findViewById(R.id.frame);
 
@@ -266,6 +267,13 @@ public class MainActivity extends AppCompatActivity {
     public void goProfile(MenuItem item) {
         Intent intent = new Intent(MainActivity.this,Profile.class);
         intent.putExtra("userSex", userSex);                                                 // dzieki temu mozemy korzystać z userSex w aktywnosci profile
+        startActivity(intent);
+    }
+
+    public void goMatches(MenuItem item) {
+        Intent intent = new Intent(MainActivity.this,MatchListActivity.class);
+        intent.putExtra("userSex", userSex);                                                 // dzieki temu mozemy korzystać z userSex w aktywnosci profile
+        intent.putExtra("oppositeUserSex",oppositeUserSex);
         startActivity(intent);
     }
 }

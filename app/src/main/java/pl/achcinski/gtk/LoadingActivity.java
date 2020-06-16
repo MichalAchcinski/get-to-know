@@ -18,11 +18,12 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
-import pl.achcinski.gtk.Adapters.tinderAdapter;
+import pl.achcinski.gtk.Adapters.cardAdapter;
+import pl.achcinski.gtk.Models.Card;
 
 public class LoadingActivity extends AppCompatActivity {
 
-    private tinderAdapter arrayAdapter;
+    private cardAdapter arrayAdapter;
 
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
@@ -162,6 +163,7 @@ public class LoadingActivity extends AppCompatActivity {
             public void run() {
                 Intent intent = new Intent(LoadingActivity.this,MainActivity.class);
                 intent.putExtra("userSex", userSex);                                                  // dzieki temu mozemy korzystać z userSex w aktywnosci profile
+                intent.putExtra("oppositeUserSex",oppositeUserSex);
                 startActivity(intent);
             }
         }, 2500);
