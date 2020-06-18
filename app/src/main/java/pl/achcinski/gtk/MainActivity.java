@@ -5,7 +5,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,12 +27,12 @@ import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 import java.util.ArrayList;
 import java.util.List;
 
-import pl.achcinski.gtk.Adapters.cardAdapter;
+import pl.achcinski.gtk.Adapters.CardAdapter;
 import pl.achcinski.gtk.Models.Card;
 
 public class MainActivity extends AppCompatActivity {
 
-    private cardAdapter arrayAdapter;
+    private CardAdapter arrayAdapter;
 
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
@@ -55,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
         rowItems = new ArrayList<Card>();
 
-        arrayAdapter = new cardAdapter(this, R.layout.item, rowItems );
+        arrayAdapter = new CardAdapter(this, R.layout.item, rowItems );
 
         SwipeFlingAdapterView flingContainer = findViewById(R.id.frame);
 
@@ -105,6 +107,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("userSex", userSex);
+        editor.commit();
     }
 
     String userSex;
@@ -232,9 +239,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()){                                                                              // jesli sprawdzany wlasnie  user dał Ci lajka to:
-                    Toast.makeText(MainActivity.this,"macz pogchamp", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this,"macz wow", Toast.LENGTH_SHORT).show();
+                    String key = FirebaseDatabase.getInstance().getReference().child("Chat").push().getKey();
+
                     usersDb.child(oppositeUserSex).child(dataSnapshot.getKey()).child("Links").child("Matches").child(currentUId).setValue(true);
                     usersDb.child(userSex).child(currentUId).child("Links").child("Matches").child(dataSnapshot.getKey()).setValue(true);
+
+                    usersDb.child(userSex).child(currentUId).child("Links").child("Matches").child(dataSnapshot.getKey()).child("ChatID").setValue(key);
+                    usersDb.child(oppositeUserSex).child(dataSnapshot.getKey()).child("Links").child("Matches").child(currentUId).child("ChatID").setValue(key);
+
+
                 }                                                                                                       // a ta funkcja wywoływana jest kiedy przesuwasz w lewo (Lajkujesz)
             }                                                                                                           // wiec jesli przesuwasz to sprawdza czy ta osoba dała ci lajka
                                                                                                                         // no i jesli tak to zapisuje w bazie danych matcha el0

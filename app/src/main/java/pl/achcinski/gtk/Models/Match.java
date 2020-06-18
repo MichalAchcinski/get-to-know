@@ -4,13 +4,19 @@ public class Match {
     String age;
     String name;
     String profilePic;
+    String ID;
 
     public Match(){} // konstuktor domyślny
 
-    public Match(String age, String name, String profilePic){
+    public Match(String age, String name, String profilePic, String ID){
         this.age=age;
         this.name=name;
         this.profilePic=profilePic;
+        this.ID=ID;
+    }
+
+    public void changeText1(String text){
+        age=text;
     }
 
     public String getAge() {
@@ -35,5 +41,13 @@ public class Match {
 
     public void setProfilePic(String profilePic) {
         this.profilePic = profilePic;
+    }
+
+    public String getID() {
+        return ID;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
     }
 }

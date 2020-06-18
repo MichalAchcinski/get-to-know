@@ -40,6 +40,7 @@ public class Settings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+
         mPhone = findViewById(R.id.settingsPhone);
         mAccept = findViewById(R.id.settingsAccept);
 

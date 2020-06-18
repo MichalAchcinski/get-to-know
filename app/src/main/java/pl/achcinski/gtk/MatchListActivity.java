@@ -7,8 +7,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -19,17 +22,19 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-import pl.achcinski.gtk.Adapters.cardAdapter;
-import pl.achcinski.gtk.Adapters.matchAdapter;
+import pl.achcinski.gtk.Adapters.CardAdapter;
+import pl.achcinski.gtk.Adapters.MatchAdapter;
+import pl.achcinski.gtk.Chat.ChatActivity;
 import pl.achcinski.gtk.Models.Match;
 
 
 public class MatchListActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private MatchAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -45,10 +50,17 @@ public class MatchListActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.match_list_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
-        mAdapter = new matchAdapter(matchArrayList);
+        mAdapter = new MatchAdapter(matchArrayList);
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+
+        mAdapter.setOnItemClickListener(new MatchAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                changeItem(position, "Clicked"); ///////////////////////////////////////////////////////////////////////
+            }
+        });
 
         getMatches();
 
@@ -84,6 +96,7 @@ public class MatchListActivity extends AppCompatActivity {
                     String age = "";
                     String name = "";
                     String imageurl = "";
+                    String ID = dataSnapshot.getKey();
                     if(dataSnapshot.child("profileInfo").child("age").getValue()!=null){
                         age = dataSnapshot.child("profileInfo").child("age").getValue().toString();
                     }
@@ -94,13 +107,16 @@ public class MatchListActivity extends AppCompatActivity {
                         imageurl = dataSnapshot.child("profileInfo").child("imageurl").getValue().toString();
                     }
 
-                    Match obj = new Match(age, name, imageurl);
+                    Match obj = new Match(age, name, imageurl, ID);
                     matchArrayList.add(obj);
                     mAdapter.notifyDataSetChanged();
 
-                        Log.i("siema",name);
-                        Log.i("siema",age);
-                        Log.i("siema",imageurl);
+                        HashMap log = new HashMap();
+                        log.put("name",name);
+                        log.put("age",age);
+                        log.put("imageurl",imageurl);
+                        log.put("ID",ID);
+                        Log.i("siema",log.toString());
 
                 }
             }
@@ -110,6 +126,11 @@ public class MatchListActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void changeItem (int position, String text){
+        matchArrayList.get(position).changeText1(text);
+        mAdapter.notifyItemChanged(position);
     }
 
 }

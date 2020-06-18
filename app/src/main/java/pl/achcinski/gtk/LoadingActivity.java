@@ -1,13 +1,13 @@
 package pl.achcinski.gtk;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -18,18 +18,17 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
-import pl.achcinski.gtk.Adapters.cardAdapter;
+import pl.achcinski.gtk.Adapters.CardAdapter;
 import pl.achcinski.gtk.Models.Card;
 
 public class LoadingActivity extends AppCompatActivity {
 
-    private cardAdapter arrayAdapter;
+    private CardAdapter arrayAdapter;
 
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     String currentUId;
 
-    private DatabaseReference usersDb;
 
     List<Card> rowItems;
 

@@ -15,9 +15,9 @@ import java.util.List;
 import pl.achcinski.gtk.Models.Card;
 import pl.achcinski.gtk.R;
 
-public class cardAdapter extends android.widget.ArrayAdapter<Card> {
+public class CardAdapter extends android.widget.ArrayAdapter<Card> {
 
-    public cardAdapter(Context context, int resourceId, List<Card> items){
+    public CardAdapter(Context context, int resourceId, List<Card> items){
         super(context, resourceId, items);
     }
     public View getView(int position, View convertView, ViewGroup parent){
