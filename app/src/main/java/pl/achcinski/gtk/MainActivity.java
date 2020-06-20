@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
         rowItems = new ArrayList<Card>();
 
-        arrayAdapter = new CardAdapter(this, R.layout.item, rowItems );
+        arrayAdapter = new CardAdapter(this, R.layout.main_list_item, rowItems );
 
         SwipeFlingAdapterView flingContainer = findViewById(R.id.frame);
 
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Bye", Toast.LENGTH_SHORT).show();
             }
 
-                                                                                                                        // reakcje na przesuniecie karty w lewo lub prawo
+            // reakcje na przesuniecie karty w lewo lub prawo
 
             @Override
             public void onAdapterAboutToEmpty(int itemsInAdapter) {
@@ -191,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
                     //al.add(dataSnapshot.child("name").getValue().toString());      ^^ jesli w database płci przeciwnej są uzytkownicy + jesli nie ma ich w podkatalogu like albo dislike to wykonujemy:
                     String imageurl = "none";
                     if (!dataSnapshot.child("profileInfo").child("imageurl").getValue().equals("none")){
-                         imageurl = dataSnapshot.child("profileInfo").child("imageurl").getValue().toString();
+                        imageurl = dataSnapshot.child("profileInfo").child("imageurl").getValue().toString();
                     }
                     Card item = new Card(dataSnapshot.getKey(),dataSnapshot.child("profileInfo").child("name").getValue().toString(),imageurl);                // tworzenie kart z osobami z płci przeciwnej
                     rowItems.add(item);                                                                                          // dodawanie ich do arrayList
@@ -244,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
 
                 }                                                                                                       // a ta funkcja wywoływana jest kiedy przesuwasz w lewo (Lajkujesz)
             }                                                                                                           // wiec jesli przesuwasz to sprawdza czy ta osoba dała ci lajka
-                                                                                                                        // no i jesli tak to zapisuje w bazie danych matcha el0
+            // no i jesli tak to zapisuje w bazie danych matcha el0
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -266,13 +266,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goSettings(MenuItem item) {
-        Intent intent = new Intent(MainActivity.this,Settings.class);
+        Intent intent = new Intent(MainActivity.this,SettingsActivity.class);
         intent.putExtra("userSex", userSex);                                                  // dzieki temu mozemy korzystać z userSex w aktywnosci profile
         startActivity(intent);
     }
 
     public void goProfile(MenuItem item) {
-        Intent intent = new Intent(MainActivity.this,Profile.class);
+        Intent intent = new Intent(MainActivity.this,ProfileActivity.class);
         intent.putExtra("userSex", userSex);                                                 // dzieki temu mozemy korzystać z userSex w aktywnosci profile
         startActivity(intent);
     }

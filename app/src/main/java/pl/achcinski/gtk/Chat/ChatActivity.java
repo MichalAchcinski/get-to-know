@@ -102,14 +102,11 @@ public class ChatActivity extends AppCompatActivity {
                     databaseChat = databaseChat.child(chatId);
                     Log.i("proszem",chatId);
                     getMessages();
-
                 }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError databaseError) { }
         });
     }
 
@@ -135,29 +132,23 @@ public class ChatActivity extends AppCompatActivity {
                         Chat newMessage = new Chat(message, currentUserBoolean);
                         resultsChat.add(newMessage);
                         mAdapter.notifyDataSetChanged();
+
+                        binding.chatListRecyclerView.smoothScrollToPosition(binding.chatListRecyclerView.getAdapter().getItemCount());
                     }
                 }
             }
 
             @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) { }
 
             @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) { }
 
             @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) { }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError databaseError) { }
         });
     }
     private ArrayList<Chat> resultsChat = new ArrayList<>();

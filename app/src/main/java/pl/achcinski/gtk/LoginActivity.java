@@ -18,11 +18,12 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import pl.achcinski.gtk.databinding.ActivityChatBinding;
+import pl.achcinski.gtk.databinding.ActivityLoginBinding;
+
 public class LoginActivity extends AppCompatActivity {
 
-    private Button mLogin;
-
-    private EditText mEmail, mPassword;
+    ActivityLoginBinding binding;
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
@@ -30,7 +31,9 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        binding = ActivityLoginBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
 
         mAuth = FirebaseAuth.getInstance();
         firebaseAuthStateListener = new FirebaseAuth.AuthStateListener() {
@@ -44,16 +47,13 @@ public class LoginActivity extends AppCompatActivity {
             } // sprawdzanie czy dany użytkownik jest już zalogowany, jeśli tak to aktywność zmienia się od razu na mainacitivity
         };
 
-        mLogin = findViewById(R.id.Login2);
 
-        mEmail = findViewById(R.id.emailRegister);
-        mPassword = findViewById(R.id.passwordRegister);
 
-        mLogin.setOnClickListener(new View.OnClickListener() {
+        binding.Login2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String email = mEmail.getText().toString();
-                final String password = mPassword.getText().toString();
+                final String email = binding.emailRegister.getText().toString();
+                final String password = binding.passwordRegister.getText().toString();
                 mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -66,8 +66,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        mEmail.addTextChangedListener(loginTextWatcher);                                            // będziemy sprawdzali czy pola email i password są puste czy nie
-        mPassword.addTextChangedListener(loginTextWatcher);                                         // jesli nie to pozwalamy kliknąć przycisk
+        binding.emailRegister.addTextChangedListener(loginTextWatcher);                                            // będziemy sprawdzali czy pola email i password są puste czy nie
+        binding.passwordRegister.addTextChangedListener(loginTextWatcher);                                         // jesli nie to pozwalamy kliknąć przycisk
 
     }
 
@@ -79,10 +79,10 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            String emailInput = mEmail.getText().toString().trim();                                 // trim po to żeby białych znaków nie zaliczało jako napisu
-            String passwordInput = mPassword.getText().toString().trim();
+            String emailInput = binding.emailRegister.getText().toString().trim();                                 // trim po to żeby białych znaków nie zaliczało jako napisu
+            String passwordInput = binding.passwordRegister.getText().toString().trim();
 
-            mLogin.setEnabled(!emailInput.isEmpty() && !passwordInput.isEmpty());
+            binding.Login2.setEnabled(!emailInput.isEmpty() && !passwordInput.isEmpty());
         }
 
         @Override

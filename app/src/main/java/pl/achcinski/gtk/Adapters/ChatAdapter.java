@@ -6,6 +6,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,14 +41,23 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatViewHolders> {
     @Override
     public void onBindViewHolder(@NonNull ChatViewHolders holder, int position) {
         holder.mText.setText(chatList.get(position).getMessage());
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.weight = 1.0f;
+        params.setMargins(0,6,0,0);
+
         if(chatList.get(position).getCurrentUser()){
             holder.mText.setGravity(Gravity.END);
             holder.mText.setTextColor(Color.parseColor("#404040"));
-            holder.mLayout.setBackgroundColor(Color.parseColor("#F4F4F4"));
+            holder.mLayout.setBackgroundResource(R.drawable.rounded_sent_chat);
+            params.gravity = Gravity.END;
+            holder.mLayout.setLayoutParams(params);
+
         }else {
             holder.mText.setGravity(Gravity.START);
             holder.mText.setTextColor(Color.parseColor("#FFFFFF"));
-            holder.mLayout.setBackgroundColor(Color.parseColor("#2DB4C8"));
+            holder.mLayout.setBackgroundResource(R.drawable.rounded_received_chat);
+            params.gravity = Gravity.START;
+            holder.mLayout.setLayoutParams(params);
         }
 
     }

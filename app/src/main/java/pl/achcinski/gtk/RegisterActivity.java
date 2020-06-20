@@ -37,13 +37,12 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import pl.achcinski.gtk.databinding.ActivityLogRegBinding;
+import pl.achcinski.gtk.databinding.ActivityRegisterBinding;
+
 public class RegisterActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
-    private Button mRegister, mDateButton;
-    private EditText mEmail, mPassword, mName;
-
-    private RadioGroup mRadioGroup;
-    private TextView mBirthDay;
+    ActivityRegisterBinding binding;
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
@@ -52,7 +51,9 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        binding = ActivityRegisterBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
 
         mAuth = FirebaseAuth.getInstance();
         firebaseAuthStateListener = new FirebaseAuth.AuthStateListener() {
@@ -66,30 +67,21 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
             }
         };
 
-        mRegister = findViewById(R.id.Register2);
 
-        mEmail = findViewById(R.id.emailRegister);
-        mPassword = findViewById(R.id.passwordRegister);
-        mName = findViewById(R.id.nameRegister);
-        mRadioGroup = findViewById(R.id.radioGroup);
-        mBirthDay = findViewById(R.id.dayOfBirthRegister);
-        mDateButton = findViewById(R.id.dateButton);
-
-
-        mRegister.setOnClickListener(new View.OnClickListener() {
+        binding.Register2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int selectId = mRadioGroup.getCheckedRadioButtonId();
+                int selectId = binding.radioGroup.getCheckedRadioButtonId();
                 final RadioButton radioButton = findViewById(selectId);
 
                 if (radioButton.getText() == null) {
                     return;
                 }
 
-                final String email = mEmail.getText().toString();
-                final String password = mPassword.getText().toString();
-                final String name = mName.getText().toString();
-                final String age = mBirthDay.getText().toString();
+                final String email = binding.emailRegister.getText().toString();
+                final String password = binding.passwordRegister.getText().toString();
+                final String name = binding.nameRegister.getText().toString();
+                final String age = binding.dayOfBirthRegister.getText().toString();
 
                 mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -112,12 +104,12 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         });
 
 
-        mName.addTextChangedListener(registerTextWatcher);
-        mEmail.addTextChangedListener(registerTextWatcher);                                            // będziemy sprawdzali czy pola email i password są puste czy nie
-        mPassword.addTextChangedListener(registerTextWatcher);                                         // jesli nie to pozwalamy kliknąć przycisk
-        mBirthDay.addTextChangedListener(registerTextWatcher);
+        binding.nameRegister.addTextChangedListener(registerTextWatcher);
+        binding.emailRegister.addTextChangedListener(registerTextWatcher);                                            // będziemy sprawdzali czy pola email i password są puste czy nie
+        binding.passwordRegister.addTextChangedListener(registerTextWatcher);                                         // jesli nie to pozwalamy kliknąć przycisk
+        binding.dayOfBirthRegister.addTextChangedListener(registerTextWatcher);
 
-        mDateButton.setOnClickListener(new View.OnClickListener() {
+        binding.dateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDatePickerDialog();
@@ -133,12 +125,12 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            String nameInput = mName.getText().toString().trim();
-            String emailInput = mEmail.getText().toString().trim();                                 // trim po to żeby białych znaków nie zaliczało jako napisu
-            String passwordInput = mPassword.getText().toString().trim();
-            String ageInput = mBirthDay.getText().toString().trim();
+            String nameInput = binding.nameRegister.getText().toString().trim();
+            String emailInput = binding.emailRegister.getText().toString().trim();                                 // trim po to żeby białych znaków nie zaliczało jako napisu
+            String passwordInput = binding.passwordRegister.getText().toString().trim();
+            String ageInput = binding.dayOfBirthRegister.getText().toString().trim();
 
-            mRegister.setEnabled(!nameInput.isEmpty() && !emailInput.isEmpty() && !passwordInput.isEmpty() && !ageInput.isEmpty());
+            binding.Register2.setEnabled(!nameInput.isEmpty() && !emailInput.isEmpty() && !passwordInput.isEmpty() && !ageInput.isEmpty());
         }
 
         @Override
@@ -182,17 +174,16 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         if(a < 0) {
             Toast.makeText(RegisterActivity.this, "Ustaw poprawną datę urodzenia!", Toast.LENGTH_SHORT).show();
             String age = "";
-            mBirthDay.setText(age);
+            binding.dayOfBirthRegister.setText(age);
         }
         else if(a > 0 && a<18){
             Toast.makeText(RegisterActivity.this, "Jesteś za młody/a!", Toast.LENGTH_SHORT).show();
             String age = "";
-            mBirthDay.setText(age);
+            binding.dayOfBirthRegister.setText(age);
         } else {
             String age = a + "";
-            mBirthDay.setText(age);
+            binding.dayOfBirthRegister.setText(age);
         }
-
 
     }
 

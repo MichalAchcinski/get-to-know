@@ -1,7 +1,6 @@
 package pl.achcinski.gtk.Adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +23,7 @@ public class CardAdapter extends android.widget.ArrayAdapter<Card> {
         Card cardItem = getItem(position);
 
         if (convertView == null){
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.main_list_item, parent, false);
         }
 
         TextView name = convertView.findViewById(R.id.nameItem);
@@ -46,4 +45,4 @@ public class CardAdapter extends android.widget.ArrayAdapter<Card> {
     }
 }
 
-// adapter czyli most między danymi a interfejsem widzianym przez uzytkownika (Konwertowanie tych danych do item.xml)
+// adapter czyli most między danymi a interfejsem widzianym przez uzytkownika (Konwertowanie tych danych do main_list_item.xml)
