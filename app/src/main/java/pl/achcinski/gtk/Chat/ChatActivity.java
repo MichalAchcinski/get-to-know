@@ -1,6 +1,7 @@
 package pl.achcinski.gtk.Chat;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -20,6 +22,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.zip.Inflater;
 
 import pl.achcinski.gtk.Adapters.ChatAdapter;
 import pl.achcinski.gtk.Models.Chat;
@@ -34,11 +38,10 @@ public class ChatActivity extends AppCompatActivity {
     private DatabaseReference databaseUser, databaseChat;
 
     private RecyclerView mRecyclerView;
-    private ChatAdapter mAdapter;
+    private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
-    private String currentUId, matchId;
-    private ArrayList<Chat> chatArrayList = new ArrayList<>();
+    private String currentUId, matchId, chatId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,22 +50,23 @@ public class ChatActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String userSex = prefs.getString("userSex", "no id");
+        SharedPreferences sharedPreferences = getSharedPreferences("PREFS",MODE_PRIVATE);
+        String userSex = sharedPreferences.getString("userSex","");
+        Log.i("seks",userSex);
 
         matchId = getIntent().getStringExtra("matchId");
 
         Log.i("meczid",matchId);
         currentUId = mAuth.getCurrentUser().getUid();
-        databaseUser = FirebaseDatabase.getInstance().getReference().child("Users").child(userSex).child(currentUId).child("Links").child("Matches").child(matchId).child("chatID");
+        databaseUser = FirebaseDatabase.getInstance().getReference().child("Users").child(userSex).child(currentUId).child("Links").child("Matches").child(matchId).child("ChatID");
         databaseChat = FirebaseDatabase.getInstance().getReference().child("Chat");
 
         chatId();
 
         mRecyclerView = findViewById(R.id.chat_list_recycler_view);
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this);
-        mAdapter = new ChatAdapter(chatArrayList);
+        mRecyclerView.setHasFixedSize(false);
+        mLayoutManager = new LinearLayoutManager(ChatActivity.this);
+        mAdapter = new ChatAdapter(getDataSetChat(), ChatActivity.this);
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
@@ -94,9 +98,10 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()){
-                    String chatId;
                     chatId = dataSnapshot.getValue().toString();
                     databaseChat = databaseChat.child(chatId);
+                    Log.i("proszem",chatId);
+                    getMessages();
 
                 }
             }
@@ -107,4 +112,54 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void getMessages() {
+        databaseChat.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                if(dataSnapshot.exists()){
+                    String message = null;
+                    String SentBy = null;
+
+                    if(dataSnapshot.child("text").getValue()!=null){
+                        message = dataSnapshot.child("text").getValue().toString();
+                    }
+                    if(dataSnapshot.child("SentBy").getValue()!=null){
+                        SentBy = dataSnapshot.child("SentBy").getValue().toString();
+                    }
+                    if(message!=null && SentBy!=null){
+                        boolean currentUserBoolean = false;
+                        if(SentBy.equals(currentUId)){
+                            currentUserBoolean = true;
+                        }
+                        Chat newMessage = new Chat(message, currentUserBoolean);
+                        resultsChat.add(newMessage);
+                        mAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+    private ArrayList<Chat> resultsChat = new ArrayList<>();
+    private List<Chat> getDataSetChat() { return resultsChat;}
 }

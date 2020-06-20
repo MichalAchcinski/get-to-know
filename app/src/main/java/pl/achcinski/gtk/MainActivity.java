@@ -108,10 +108,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString("userSex", userSex);
-        editor.commit();
     }
 
     String userSex;
@@ -241,9 +237,6 @@ public class MainActivity extends AppCompatActivity {
                 if (dataSnapshot.exists()){                                                                              // jesli sprawdzany wlasnie  user dał Ci lajka to:
                     Toast.makeText(MainActivity.this,"macz wow", Toast.LENGTH_SHORT).show();
                     String key = FirebaseDatabase.getInstance().getReference().child("Chat").push().getKey();
-
-                    usersDb.child(oppositeUserSex).child(dataSnapshot.getKey()).child("Links").child("Matches").child(currentUId).setValue(true);
-                    usersDb.child(userSex).child(currentUId).child("Links").child("Matches").child(dataSnapshot.getKey()).setValue(true);
 
                     usersDb.child(userSex).child(currentUId).child("Links").child("Matches").child(dataSnapshot.getKey()).child("ChatID").setValue(key);
                     usersDb.child(oppositeUserSex).child(dataSnapshot.getKey()).child("Links").child("Matches").child(currentUId).child("ChatID").setValue(key);

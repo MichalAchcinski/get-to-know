@@ -1,81 +1,60 @@
 package pl.achcinski.gtk.Adapters;
 
-import android.content.Intent;
-import android.os.Bundle;
+import android.content.Context;
+import android.graphics.Color;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import pl.achcinski.gtk.Chat.ChatActivity;
+import pl.achcinski.gtk.Chat.ChatViewHolders;
 import pl.achcinski.gtk.Models.Chat;
 import pl.achcinski.gtk.R;
 
 
-public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.chatViewHolder> {
-    private ArrayList<Chat> mChatList;
-    private OnItemClickListener mListener;
+public class ChatAdapter extends RecyclerView.Adapter<ChatViewHolders> {
+    private List<Chat> chatList;
+    private Context context;
 
-    public interface OnItemClickListener{
-        void onItemClick(int position);
-    }
-
-    public void setOnItemClickListener(OnItemClickListener listener){
-        mListener = listener;
-    }
-
-    public static class chatViewHolder extends RecyclerView.ViewHolder{
-        public ImageView mImageView;
-        public TextView mTextView1;
-        public TextView mTextView2;
-        public TextView mTextView3;
-
-        public chatViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
-            super(itemView);
-            mImageView = itemView.findViewById(R.id.matchListImageView);
-            mTextView1 = itemView.findViewById(R.id.matchListTextViewAge);
-            mTextView2 = itemView.findViewById(R.id.matchListTextViewName);
-            mTextView3 = itemView.findViewById(R.id.matchListTextViewId);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(v.getContext(), ChatActivity.class);
-                    Bundle b = new Bundle();
-                    b.putString("matchId",mTextView3.getText().toString());
-                    intent.putExtras(b);
-                    v.getContext().startActivity(intent);
-                }
-            });
-        }
-    }
-
-    public ChatAdapter(ArrayList<Chat> chatArrayList) {
-        mChatList = chatArrayList;
+    public ChatAdapter(List<Chat> chatList, Context context) {
+        this.chatList = chatList;
+        this.context = context;
     }
 
     @NonNull
     @Override
-    public chatViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_list_element, parent, false);
-        chatViewHolder mvh = new chatViewHolder(v, mListener);
-        return mvh;
+    public ChatViewHolders onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_list_element, null, false);
+        RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        v.setLayoutParams(lp);
+        ChatViewHolders cvh = new ChatViewHolders(v);
+
+        return cvh;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull chatViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ChatViewHolders holder, int position) {
+        holder.mText.setText(chatList.get(position).getMessage());
+        if(chatList.get(position).getCurrentUser()){
+            holder.mText.setGravity(Gravity.END);
+            holder.mText.setTextColor(Color.parseColor("#404040"));
+            holder.mLayout.setBackgroundColor(Color.parseColor("#F4F4F4"));
+        }else {
+            holder.mText.setGravity(Gravity.START);
+            holder.mText.setTextColor(Color.parseColor("#FFFFFF"));
+            holder.mLayout.setBackgroundColor(Color.parseColor("#2DB4C8"));
+        }
 
     }
 
     @Override
     public int getItemCount() {
-        return mChatList.size();
+        return chatList.size();
     }
 
 }

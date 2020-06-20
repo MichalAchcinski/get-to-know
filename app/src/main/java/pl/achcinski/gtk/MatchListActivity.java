@@ -64,10 +64,18 @@ public class MatchListActivity extends AppCompatActivity {
 
         getMatches();
 
+
+
     }
 
     private void getMatches(){
         String userSex = getIntent().getExtras().getString("userSex");
+
+        SharedPreferences sharedPreferences = getSharedPreferences("PREFS",MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("userSex",userSex);
+        editor.apply();
+
         DatabaseReference matchDb = FirebaseDatabase.getInstance().getReference().child("Users").child(userSex).child(currentUId).child("Links").child("Matches");
         matchDb.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
