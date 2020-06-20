@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -35,13 +34,12 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import pl.achcinski.gtk.databinding.ActivityChatBinding;
 import pl.achcinski.gtk.databinding.ActivityProfileBinding;
+import pl.achcinski.gtk.databinding.ActivityRegisterBinding;
 
 public class ProfileActivity extends AppCompatActivity {
 
     ActivityProfileBinding binding;
-
     private Uri filePath;
     private final int PICK_IMAGE_REQUEST = 71;
 
@@ -60,10 +58,9 @@ public class ProfileActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
-        String userSex = getIntent().getStringExtra("userSex");
-
         mAuth = FirebaseAuth.getInstance();
         currentUId = mAuth.getCurrentUser().getUid();
+        String userSex = getIntent().getExtras().getString("userSex");
 
         userDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(userSex).child(currentUId);
 
@@ -82,8 +79,8 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-    }
 
+    }
 
     private void saveInfo() {
         name = binding.profileName.getText().toString();
@@ -167,9 +164,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError databaseError) { }
         });
     }
 

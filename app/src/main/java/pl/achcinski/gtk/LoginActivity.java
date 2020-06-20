@@ -18,7 +18,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import pl.achcinski.gtk.databinding.ActivityChatBinding;
+import pl.achcinski.gtk.databinding.ActivityLogRegBinding;
 import pl.achcinski.gtk.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity {
@@ -47,8 +47,6 @@ public class LoginActivity extends AppCompatActivity {
             } // sprawdzanie czy dany użytkownik jest już zalogowany, jeśli tak to aktywność zmienia się od razu na mainacitivity
         };
 
-
-
         binding.Login2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,9 +71,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private TextWatcher loginTextWatcher = new TextWatcher() {
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -86,9 +82,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         @Override
-        public void afterTextChanged(Editable s) {
-
-        }
+        public void afterTextChanged(Editable s) { }
     };
 
 

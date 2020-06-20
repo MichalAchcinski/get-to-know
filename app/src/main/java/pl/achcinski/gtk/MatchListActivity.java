@@ -64,8 +64,6 @@ public class MatchListActivity extends AppCompatActivity {
 
         getMatches();
 
-
-
     }
 
     private void getMatches(){
@@ -88,9 +86,7 @@ public class MatchListActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError databaseError) { }
         });
     }
 
@@ -130,9 +126,7 @@ public class MatchListActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError databaseError) { }
         });
     }
 

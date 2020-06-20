@@ -23,13 +23,13 @@
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Profile"
+            android:name=".ProfileActivity"
             android:configChanges="orientation"
             android:label="Profile"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Settings"
+            android:name=".SettingsActivity"
             android:configChanges="orientation"
             android:label="Settings"
             android:parentActivityName=".MainActivity"

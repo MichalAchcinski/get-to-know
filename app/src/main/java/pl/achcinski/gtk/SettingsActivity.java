@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -33,7 +32,9 @@ public class SettingsActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference userDatabase;
 
-    private String currentUId, phone;
+    private String currentUId, phone, radio;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +43,9 @@ public class SettingsActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
-        String userSex = getIntent().getStringExtra("userSex");
-
         mAuth = FirebaseAuth.getInstance();
         currentUId = mAuth.getCurrentUser().getUid();
+        String userSex = getIntent().getStringExtra("userSex");
 
         userDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(userSex).child(currentUId);
 

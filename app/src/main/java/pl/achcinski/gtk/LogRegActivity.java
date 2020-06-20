@@ -6,10 +6,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import pl.achcinski.gtk.databinding.ActivityChatBinding;
 import pl.achcinski.gtk.databinding.ActivityLogRegBinding;
 
 public class LogRegActivity extends AppCompatActivity {
@@ -58,6 +60,7 @@ public class LogRegActivity extends AppCompatActivity {
         super.onStart();
         mAuth.addAuthStateListener(firebaseAuthStateListener);  // rozpoczyna nasłuchiwanie zmian uwierzytelniania, daje znać po tym jak nastąpi rejestracja, logowanie, wylogowanie, obceny użytkownik się zmieni
     }
+
 
     @Override
     protected void onStop() {
